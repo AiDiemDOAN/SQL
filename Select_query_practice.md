@@ -53,3 +53,43 @@ and studentGender = 1
  #### Output
  ![image](https://user-images.githubusercontent.com/98060506/197296331-b5767e78-bcb2-434e-872f-06c270df597f.png)
 ### Question 6: List all students and their class name
+#### Input 
+```js 
+Select s.*, c.className
+From Student s join Student_Class sc
+on s.studentID = sc.studentID join class c
+on sc.classCode = c.classCode
+```
+#### Output
+![image](https://user-images.githubusercontent.com/98060506/197296613-08726b39-a4ec-47cf-a4fb-0b4c2169c2ff.png)
+
+### Question 7: List all students who win the highest scholarship
+#### Input 
+```js 
+Select st.*, s.*
+From Student_Scholarship ss join Scholarship s
+on ss.schoName = s.schoName join Student st
+on ss.StudentID = st.studentID
+Where s.schoGranted = 
+(Select max(s.schogranted) as max_scho
+From Student_Scholarship ss join Scholarship s
+on ss.schoName = s.schoName)
+```
+#### Output
+![image](https://user-images.githubusercontent.com/98060506/197296702-c1d09320-2393-45f1-93bc-fe39ca374238.png)
+
+### Question 8: List the total budget to grant for each type of scholarship
+#### Input 
+```js 
+With rs as(Select s.schoName, s.schoGranted, count(ss.schoName) as number_st
+From Scholarship s left join Student_Scholarship ss 
+on s.schoName = ss.schoName
+group by ss.schoName, s.schoName, s.schoGranted)
+Select rs.schoName,(rs.schoGranted * rs.number_st) as total_budget
+from rs
+```
+#### Output
+![image](https://user-images.githubusercontent.com/98060506/197296801-dacad617-d35c-4980-8ae6-751b1e75352f.png)
+
+
+
